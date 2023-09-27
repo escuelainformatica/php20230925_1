@@ -14,8 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 Route::controller(AlbumController::class)->prefix('album')->group(function() {
-    Route::get("",'listar')->name("album.listar"); // 
+    Route::get("/{curPage?}",'listar')->name("album.listar")->where('curPage','[0-9]+'); // 
     Route::get("/insertar",'insertar'); // Route::get("/album/insertar",[AlbumController::class,'insertar']);
     Route::post("/insertar",'insertarPost');
     Route::get("/actualizar/{AlbumId}",'actualizar'); 

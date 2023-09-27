@@ -23,6 +23,14 @@ class AlbumRepo {
     {
         return Album::with(['artist'])->where('ArtistId',$artistId)->orderBy('Title')->get();
     }
+    public function listarPaginado($curPage=1) 
+    {
+        return Album::with(['artist'])->orderBy('AlbumId')->paginate(10,['*'],'page',$curPage)->all();
+    }
+    public function contar()
+    {
+        return Album::with(['artist'])->count();
+    }
     public function insertar(Album $album):bool
     {
         return $album->save();

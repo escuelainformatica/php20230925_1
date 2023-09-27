@@ -18,17 +18,23 @@ class AlbumController extends Controller
         $this->arts=$ArtistRepo;
         $this->request=$request;
     }
-    public function listar() {
+    public function listar($curPage=1) {
         $id=$this->request->get('ArtistId',null);
         
-        if($id===null) {
-            $albumes=$this->albs->listarOrdenPorTitle();
-        } else {
-            $albumes=$this->albs->listarFiltrado($id);
-        }
+        
+        $albumes=$this->albs->listarPaginado($curPage);
+        $numAlbumes=$this->albs->contar();
+        $numPage=ceil($numAlbumes/10);
+        
+        
         $artistas=$this->arts->listarTodo();
         
-        return view("album.listar",['albumes'=>$albumes,'artistas'=>$artistas]); // /resources/views/album/listar.blade.php        
+        return view("album.listar",[
+            'albumes'=>$albumes,
+            'artistas'=>$artistas,
+            'curPage'=>$curPage,
+            'numAlbumes'=>$numAlbumes,
+            'numPage'=>$numPage]); // /resources/views/album/listar.blade.php        
     }
     public function insertar()
     {

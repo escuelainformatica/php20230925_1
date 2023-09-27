@@ -1,46 +1,36 @@
-  @extends("plantilla")
-  @section("contenido")
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    @include("componentes.encabezado",['titulo'=>'Lista de Albumes'])
+  @extends('plantilla')
+  @section('contenido')
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
+          <!-- Content Header (Page header) -->
+          <br>
 
-      <!-- Default box -->
-      <div class="card">
-        @include("componentes.encabezadotarjeta",['titulo'=>'Lista de Albumnes'])
-        <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-            <th>Titulo</td>
-            <th>Artista</td>
-            <th>Editar</td>
-          </tr>
-          </thead>
-          @foreach($albumes as $album)
-          <tr>
-            <td>{{$album->Title}}</td>
-            <td>{{$album->artist->Name}}</td>
-            <td><a class="badge bg-info" href='/album/actualizar/{{$album->AlbumId}}'>Actualizar</a><br>
-            <a class="badge bg-danger" href='/album/eliminar/{{$album->AlbumId}}' onclick="return confirm('¿Esta seguro?')">Eliminar</a></td>
-          </tr>
-          @endforeach
-          </table>
-          
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          Footer
-        </div>
-        <!-- /.card-footer-->
+          <!-- Main content -->
+          <section class="content">
+              <x-tarjeta titulo="Lista de Albumes">
+                  <x-tabla :encabezados="['AlbumId', 'Titulo', 'Artista', 'Editar']">
+                      @foreach ($albumes as $album)
+                          <tr>
+                              <td>{{ $album->AlbumId }}</td>
+                              <td>{{ $album->Title }}</td>
+                              <td>{{ $album->artist->Name }}</td>
+                              <td><a class="badge bg-info" href='/album/actualizar/{{ $album->AlbumId }}'>Actualizar</a><br>
+                                  <a class="badge bg-danger" href='/album/eliminar/{{ $album->AlbumId }}'
+                                      onclick="return confirm('¿Esta seguro?')">Eliminar</a>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </x-tabla>
+                  <x-paginacion :numPage="$numPage" url="http://127.0.0.1:8000/album" :curPage="$curPage" />
+                  <x-slot:pie>
+                      <a href="http://127.0.0.1:8000/album/insertar" class="btn btn-primary">Insertar</a>
+                  </x-slot>
+              </x-tarjeta>
+
+
+          </section>
+          <!-- /.content -->
       </div>
-      <!-- /.card -->
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+      <!-- /.content-wrapper -->
   @endsection
